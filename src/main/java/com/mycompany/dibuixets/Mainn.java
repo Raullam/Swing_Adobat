@@ -72,18 +72,17 @@ public class Mainn {
         });
         
         // Acción para el botón de Croma
-        button2.addActionListener(new ActionListener() {
+         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Crear una instancia del panel Croma
                 Croma cromaPanel = new Croma();
-
-                // Eliminar los componentes existentes del JFrame
-                mainFrame.getContentPane().removeAll();
-
-                // Agregar el panel Croma al JFrame
-                mainFrame.add(cromaPanel, BorderLayout.CENTER);
-
+                
+                // Crear una nueva ventana para Croma
+                JFrame cromaFrame = new JFrame("Croma");
+                cromaFrame.setLayout(new BorderLayout());
+                cromaFrame.add(cromaPanel, BorderLayout.CENTER);
+                
                 // Crear un botón para volver al menú principal
                 JButton backButton = new JButton("Volver");
                 backButton.addActionListener(new ActionListener() {
@@ -91,27 +90,21 @@ public class Mainn {
                     public void actionPerformed(ActionEvent e) {
                         // Detener la captura de video antes de volver al menú principal
                         cromaPanel.stopCapture();
-
-                        // Volver al menú principal
-                        mainFrame.getContentPane().removeAll();
-                        mainFrame.add(createMainMenu(mainFrame), BorderLayout.CENTER);
-                        mainFrame.setSize(400, 400);
-                        mainFrame.revalidate();
-                        mainFrame.repaint();
-                        mainFrame.setLocationRelativeTo(null);
+                        
+                        // Cerrar la ventana de Croma
+                        cromaFrame.dispose();
                     }
                 });
-
+                
                 // Agregar el botón de volver al panel sur
                 JPanel southPanel = new JPanel();
                 southPanel.add(backButton);
-                mainFrame.add(southPanel, BorderLayout.SOUTH);
-
-                // Actualizar el JFrame
-                mainFrame.revalidate();
-                mainFrame.repaint();
-                mainFrame.setSize(800, 600); // Establecer un tamaño adecuado para el panel Croma
-                mainFrame.setLocationRelativeTo(null);
+                cromaFrame.add(southPanel, BorderLayout.SOUTH);
+                
+                cromaFrame.setSize(800, 600);
+                cromaFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                cromaFrame.setLocationRelativeTo(null);
+                cromaFrame.setVisible(true);
             }
         });
 
@@ -138,6 +131,7 @@ public class Mainn {
             public void actionPerformed(ActionEvent e) {
                 // Crear una instància del panell ObjectTracking
                 ObjectTracking objectTrackingPanel = new ObjectTracking();
+              
 
                 // Eliminar els components existents del JFrame
                 mainFrame.getContentPane().removeAll();

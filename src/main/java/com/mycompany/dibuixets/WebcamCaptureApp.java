@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import org.opencv.imgproc.Imgproc;
 
 /**
  * La clase WebcamCaptureApp permite capturar imágenes desde la webcam en tiempo real
