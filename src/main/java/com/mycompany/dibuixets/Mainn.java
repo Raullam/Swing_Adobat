@@ -75,11 +75,46 @@ public class Mainn {
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel j = new Croma();
-                j.setLayout(null);
+                // Crear una instancia del panel Croma
+                Croma cromaPanel = new Croma();
+
+                // Eliminar los componentes existentes del JFrame
+                mainFrame.getContentPane().removeAll();
+
+                // Agregar el panel Croma al JFrame
+                mainFrame.add(cromaPanel, BorderLayout.CENTER);
+
+                // Crear un botón para volver al menú principal
+                JButton backButton = new JButton("Volver");
+                backButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Detener la captura de video antes de volver al menú principal
+                        cromaPanel.stopCapture();
+
+                        // Volver al menú principal
+                        mainFrame.getContentPane().removeAll();
+                        mainFrame.add(createMainMenu(mainFrame), BorderLayout.CENTER);
+                        mainFrame.setSize(400, 400);
+                        mainFrame.revalidate();
+                        mainFrame.repaint();
+                        mainFrame.setLocationRelativeTo(null);
+                    }
+                });
+
+                // Agregar el botón de volver al panel sur
+                JPanel southPanel = new JPanel();
+                southPanel.add(backButton);
+                mainFrame.add(southPanel, BorderLayout.SOUTH);
+
+                // Actualizar el JFrame
+                mainFrame.revalidate();
+                mainFrame.repaint();
+                mainFrame.setSize(800, 600); // Establecer un tamaño adecuado para el panel Croma
+                mainFrame.setLocationRelativeTo(null);
             }
         });
-        
+
         // Acción para el botón de reconocimiento de texto
         button3.addActionListener(new ActionListener() {
             @Override

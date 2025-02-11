@@ -162,12 +162,32 @@ public class Croma extends JPanel {
         image.getRaster().setDataElements(0, 0, width, height, data);  // Establecer los datos en el BufferedImage
         return image;
     }
+    
+    /**
+     * Método para detener la captura de video y liberar recursos.
+     */
+    public void stopCapture() {
+        capturing = false; // Detener el bucle de captura
+        if (capture != null && capture.isOpened()) {
+            capture.release(); // Liberar la cámara
+        }
+        if (captureThread != null) {
+            try {
+                captureThread.join(); // Esperar a que el hilo de captura termine
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     /**
      * Método principal que inicia la aplicación y muestra el panel en una ventana JFrame.
      * 
      * @param args Argumentos de la línea de comandos (no utilizados en este caso).
      */
+    
+/*
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Croma panel = new Croma();  // Crear el panel Croma
@@ -181,4 +201,5 @@ public class Croma extends JPanel {
             frame.setLocationRelativeTo(null);  // Centrar la ventana
         });
     }
+*/
 }
