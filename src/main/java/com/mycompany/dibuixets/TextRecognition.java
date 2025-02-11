@@ -15,13 +15,28 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+/**
+ * La clase {@code TextRecognition} permite realizar el reconocimiento de texto en tiempo real
+ * desde una cámara web. Utiliza OpenCV para capturar los fotogramas de video y Tesseract OCR
+ * para detectar el texto en las imágenes. La interfaz gráfica está construida con Swing.
+ * 
+ * <p> El sistema captura imágenes de la webcam, procesa las imágenes, y realiza OCR cada 6 segundos
+ * para extraer texto. Además, el usuario puede guardar la imagen capturada y cerrar la ventana de captura. </p>
+ * 
+ * @author Usuario
+ */
 public class TextRecognition extends JPanel {
-    private VideoCapture camera;
-    private Mat frame;
-    private BufferedImage bufferedImage;
-    private String capturedImagePath = "images/captured_image.jpg";
-    private JFrame frameWindow;
+    private VideoCapture camera;  // Objeto para capturar video desde la cámara
+    private Mat frame;  // Matriz que contiene el fotograma actual capturado desde la cámara
+    private BufferedImage bufferedImage;  // Imagen en formato BufferedImage para mostrar en la interfaz gráfica
+    private String capturedImagePath = "images/captured_image.jpg";  // Ruta para guardar la imagen capturada
+    private JFrame frameWindow;  // Ventana principal de la interfaz gráfica
 
+    /**
+     * Constructor de la clase {@code TextRecognition}.
+     * Inicializa la cámara, los botones y la ventana para la captura y visualización en tiempo real.
+     * También configura el procesamiento de los fotogramas y la ejecución del OCR.
+     */
     public TextRecognition() {
         // Cargar OpenCV
         System.load("C:\\Users\\Rulox\\Downloads\\opencv\\build\\java\\x64\\opencv_java490.dll");
@@ -97,14 +112,27 @@ public class TextRecognition extends JPanel {
         }).start();
     }
 
+    /**
+     * Sobreescribe el método {@code paintComponent} para dibujar la imagen capturada desde la cámara
+     * en el panel.
+     * 
+     * @param g El objeto {@code Graphics} utilizado para dibujar en el componente.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (bufferedImage != null) {
-            g.drawImage(bufferedImage, 0, 0, this);
+            g.drawImage(bufferedImage, 0, 0, this);  // Dibuja la imagen en el panel
         }
     }
 
+    /**
+     * Convierte un objeto {@code Mat} de OpenCV a un objeto {@code BufferedImage}.
+     * Este método maneja tanto imágenes en escala de grises como en color.
+     * 
+     * @param mat El objeto {@code Mat} que contiene la imagen a convertir.
+     * @return Un objeto {@code BufferedImage} equivalente a la imagen contenida en el {@code Mat}.
+     */
     private BufferedImage matToBufferedImage(Mat mat) {
         int width = mat.width();
         int height = mat.height();
@@ -114,32 +142,42 @@ public class TextRecognition extends JPanel {
                 : new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 
         byte[] data = new byte[width * height * channels];
-        mat.get(0, 0, data);
-        image.getRaster().setDataElements(0, 0, width, height, data);
+        mat.get(0, 0, data);  // Obtiene los datos de la imagen del objeto Mat
+        image.getRaster().setDataElements(0, 0, width, height, data);  // Carga los datos en el BufferedImage
 
         return image;
     }
 
+    /**
+     * Detecta el texto de una imagen usando OCR con Tesseract.
+     * 
+     * @param frame El objeto {@code Mat} que contiene el fotograma de la cámara a procesar.
+     * @return El texto detectado en el fotograma o {@code null} si no se detecta texto.
+     */
     private String detectText(Mat frame) {
         ITesseract instance = new Tesseract();
         instance.setDatapath("C:\\Users\\Rulox\\Downloads\\Nueva carpeta (83)\\dibuxets222\\dibuixets\\src\\tessdata");
-        instance.setLanguage("eng");
+        instance.setLanguage("eng");  // Establece el idioma a inglés
 
-        BufferedImage image = matToBufferedImage(frame);
+        BufferedImage image = matToBufferedImage(frame);  // Convierte el fotograma a BufferedImage
         try {
-            return instance.doOCR(image);
+            return instance.doOCR(image);  // Realiza el OCR sobre la imagen
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Captura cualquier excepción en caso de error durante el OCR
             return null;
         }
     }
 
+    /**
+     * Guarda la imagen capturada desde la cámara en el sistema de archivos.
+     * El usuario ingresa el nombre del archivo y la imagen se guarda en la carpeta "images".
+     */
     private void saveCapturedImage() {
         if (frame != null) {
             String fileName = JOptionPane.showInputDialog("Introduce el nombre para guardar la imagen:");
             if (fileName != null && !fileName.trim().isEmpty()) {
                 File outputFile = new File("images/" + fileName + ".jpg");
-                Imgcodecs.imwrite(outputFile.getAbsolutePath(), frame);
+                Imgcodecs.imwrite(outputFile.getAbsolutePath(), frame);  // Guarda la imagen
                 JOptionPane.showMessageDialog(this, "Imagen guardada como: " + outputFile.getAbsolutePath());
             }
         } else {
@@ -147,7 +185,12 @@ public class TextRecognition extends JPanel {
         }
     }
 
+    /**
+     * Método principal que inicializa la aplicación y muestra la interfaz gráfica.
+     * 
+     * @param args Los argumentos de la línea de comandos (no utilizados en este caso).
+     */
     public static void main(String[] args) {
-        new TextRecognition();
+        new TextRecognition();  // Crea e inicializa la aplicación de reconocimiento de texto
     }
 }
