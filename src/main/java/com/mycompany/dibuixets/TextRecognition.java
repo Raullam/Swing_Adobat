@@ -1,5 +1,6 @@
 package com.mycompany.dibuixets;
 
+import com.mycompany.dibuixets.dll.Constants;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import org.opencv.core.*;
@@ -39,7 +40,7 @@ public class TextRecognition extends JPanel {
      */
     public TextRecognition() {
         // Cargar OpenCV
-        System.load("C:\\Users\\Rulox\\Downloads\\opencv\\build\\java\\x64\\opencv_java490.dll");
+        System.load(Constants.FILE_PATH);
 
         // Inicializar la cámara
         camera = new VideoCapture(0, Videoio.CAP_DSHOW);

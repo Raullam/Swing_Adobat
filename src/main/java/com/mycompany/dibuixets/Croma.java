@@ -1,5 +1,6 @@
 package com.mycompany.dibuixets;
 
+import com.mycompany.dibuixets.dll.Constants;
 import org.opencv.core.*;
 import org.opencv.videoio.VideoCapture;
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class Croma extends JPanel {
      */
     public Croma() {
         // Cargar la librería de OpenCV
-        System.load("C:\\Users\\Rulox\\Downloads\\Nueva carpeta (83)\\dibuxets222\\dibuixets\\src\\main\\java\\com\\mycompany\\dibuixets\\dll\\opencv_java490.dll");
+        System.load(Constants.FILE_PATH);
 
         // Si ya existe un objeto de VideoCapture, cerrarlo antes de crear uno nuevo
         if (capture != null && capture.isOpened()) {

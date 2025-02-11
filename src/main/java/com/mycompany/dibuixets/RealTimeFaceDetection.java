@@ -1,5 +1,6 @@
 package com.mycompany.dibuixets;
 
+import com.mycompany.dibuixets.dll.Constants;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.objdetect.CascadeClassifier;
@@ -25,7 +26,7 @@ public class RealTimeFaceDetection extends JPanel {
      * Constructor de la classe que inicialitza la càmera i el sistema de detecció de rostres.
      */
     public RealTimeFaceDetection() {
-        System.load("C:\\Users\\Rulox\\Downloads\\opencv\\build\\java\\x64\\opencv_java490.dll");
+        System.load(Constants.FILE_PATH);
 
         camera = new VideoCapture(0);
         frame = new Mat();

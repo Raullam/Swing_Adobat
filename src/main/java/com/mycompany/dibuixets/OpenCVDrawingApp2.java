@@ -1,5 +1,6 @@
 package com.mycompany.dibuixets;
 
+import com.mycompany.dibuixets.dll.Constants;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import javax.swing.*;
@@ -45,7 +46,7 @@ public class OpenCVDrawingApp2 extends JPanel {
      */
     public OpenCVDrawingApp2(String imagePath) {
         // Inicialización de la imagen y demás
-        System.load("C:\\Users\\Rulox\\Downloads\\Nueva carpeta (83)\\dibuxets222\\dibuixets\\src\\main\\java\\com\\mycompany\\dibuixets\\dll\\opencv_java490.dll");
+        System.load(Constants.FILE_PATH);
         image = Imgcodecs.imread(imagePath);
         resizeImage();
         bufferedImage = matToBufferedImage(image);

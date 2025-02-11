@@ -51,14 +51,16 @@ public class Mainn {
         // Crear botones para diferentes funciones
         JButton button1 = new JButton("Detector de Cares");
         JButton button2 = new JButton("Croma");
-        JButton button3 = new JButton("Botón 3");
+        JButton button3 = new JButton("Guardar imatge");
         JButton button4 = new JButton("Paint 2030");
+        JButton button5 = new JButton("Object tracking");
 
         // Establecer el tamaño preferido de los botones
         button1.setPreferredSize(new Dimension(200, 40));
         button2.setPreferredSize(new Dimension(200, 40));
         button3.setPreferredSize(new Dimension(200, 40));
         button4.setPreferredSize(new Dimension(200, 40));
+        button5.setPreferredSize(new Dimension(200, 40));
 
         // Acción para el botón de detector de caras
         button1.addActionListener(new ActionListener() {
@@ -94,6 +96,50 @@ public class Mainn {
                 openDrawingPanel(mainFrame);
             }
         });
+        
+        // Acción para el botón Object Tracking
+        button5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Crear una instància del panell ObjectTracking
+                ObjectTracking objectTrackingPanel = new ObjectTracking();
+
+                // Eliminar els components existents del JFrame
+                mainFrame.getContentPane().removeAll();
+
+                // Afegir el panell ObjectTracking al JFrame
+                mainFrame.add(objectTrackingPanel, BorderLayout.CENTER);
+
+                // Crear un botó per tornar al menú principal
+                JButton backButton = new JButton("Volver");
+                backButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Aturar la càmera abans de tornar al menú principal
+                        objectTrackingPanel.stop();
+                        
+                        // Tornar al menú principal
+                        mainFrame.getContentPane().removeAll();
+                        mainFrame.add(createMainMenu(mainFrame), BorderLayout.CENTER);
+                        mainFrame.setSize(400, 400);
+                        mainFrame.revalidate();
+                        mainFrame.repaint();
+                        mainFrame.setLocationRelativeTo(null);
+                    }
+                });
+
+                // Afegir el botó de tornar al panell sud
+                JPanel southPanel = new JPanel();
+                southPanel.add(backButton);
+                mainFrame.add(southPanel, BorderLayout.SOUTH);
+
+                // Actualitzar el JFrame
+                mainFrame.revalidate();
+                mainFrame.repaint();
+                mainFrame.setSize(800, 600); // Establir una mida adequada per al seguiment d'objectes
+                mainFrame.setLocationRelativeTo(null);
+            }
+        });
 
         // Agregar los botones al panel
         buttonPanel.add(button1, gbc);
@@ -103,6 +149,8 @@ public class Mainn {
         buttonPanel.add(button3, gbc);
         gbc.gridy++;
         buttonPanel.add(button4, gbc);
+        gbc.gridy++;
+        buttonPanel.add(button5, gbc);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout());
